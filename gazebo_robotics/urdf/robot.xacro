@@ -133,8 +133,6 @@
 
  	</link>
 
-
-
  <joint name="base_to_wheel1" type="continuous">
    <parent link="base_link"/>
    <child link="wheel_1"/>
@@ -164,7 +162,8 @@
    <child link="wheel_4"/>
    <origin rpy="1.5707 0 0" xyz="-0.1 -0.15 0"/>
  </joint>
-
+	
+  <!-- Camera -->
   <joint name="camera_joint" type="fixed">
     <axis xyz="0 1 0" />
     <origin xyz="0.125 0 0.125" rpy="0 0 0"/>
@@ -172,7 +171,6 @@
     <child link="camera_link"/>
   </joint>
 
-  <!-- Camera -->
   <link name="camera_link">
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -198,9 +196,7 @@
     </inertial>
   </link>
 
-
-
-
+  <!-- Hokuyo Laser -->
   <joint name="hokuyo_joint" type="fixed">
     <axis xyz="0 1 0" />
     <origin xyz="0.125 0.05 0.125" rpy="0 0 0"/>
@@ -208,7 +204,6 @@
     <child link="hokuyo_link"/>
   </joint>
 
-  <!-- Hokuyo Laser -->
   <link name="hokuyo_link">
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -231,4 +226,22 @@
     </inertial>
   </link>
 
+<!-- Controller -->
+  <gazebo>
+    <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+      <updateRate>100.0</updateRate>
+      <robotNamespace>/</robotNamespace>
+      <leftFrontJoint>base_to_wheel1</leftFrontJoint>
+      <rightFrontJoint>base_to_wheel3</rightFrontJoint>
+      <leftRearJoint>base_to_wheel2</leftRearJoint>
+      <rightRearJoint>base_to_wheel4</rightRearJoint>
+      <wheelSeparation>4</wheelSeparation>
+      <wheelDiameter>0.1</wheelDiameter>
+      <robotBaseFrame>base_link</robotBaseFrame>
+      <torque>1</torque>
+      <topicName>cmd_vel</topicName>
+      <broadcastTF>0</broadcastTF>
+    </plugin>
+  </gazebo>	
+	
 </robot>
