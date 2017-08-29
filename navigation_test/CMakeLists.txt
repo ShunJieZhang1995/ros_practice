@@ -7,7 +7,13 @@ project(navigation_test)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED
+	roscpp
+	rospy
+	tf
+)
+
+include_directories(${catkin_INCLUDE_DIRS})
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -131,6 +137,12 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/navigation_test_node.cpp)
 
+add_executable(tf_broadcast src/tf_broadcaster.cpp)
+add_executable(tf_listener src/tf_listener.cpp)
+add_executable(laser src/laser.cpp)
+add_executable(odometry src/odometry.cpp)
+add_executable(base_controller src/base_controller.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -145,6 +157,12 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+
+target_link_libraries(tf_broadcast ${catkin_LIBRARIES})
+target_link_libraries(tf_listener ${catkin_LIBRARIES})
+target_link_libraries(laser ${catkin_LIBRARIES})
+target_link_libraries(odometry ${catkin_LIBRARIES})
+target_link_libraries(base_controller ${catkin_LIBRARIES})
 
 #############
 ## Install ##
